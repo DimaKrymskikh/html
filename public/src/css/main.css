@@ -1,0 +1,18 @@
+.bg-mystyle {
+    background-color: orange;
+}
+
+.nav-link.nav-span,
+.pagination-container .page-item,
+img.removal-film,
+img.film-card,
+img[src="src/svg/plus-circle.svg"]
+{
+    cursor: pointer;
+}
+
+.pagination-container .page-item.active,
+.pagination-container .page-item.disabled
+{
+    cursor: default;
+}
