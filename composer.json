@@ -1,0 +1,14 @@
+{
+    "name": "client/html",
+    "description": "Клиенская часть api на html и нативном js",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Дима Крымских",
+            "email": "krymskikh@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

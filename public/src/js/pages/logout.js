@@ -1,5 +1,4 @@
-import {basicUrl} from '../domain.js';
-import {app, alertAuthorization} from '../main.js';
+import {basicUrl, app, alertAuthorization} from '../main.js';
 import {pageHome} from './home.js';
 import {request} from '../tools/request.js';
 

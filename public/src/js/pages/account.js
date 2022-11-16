@@ -1,5 +1,4 @@
-import {basicUrl} from '../domain.js';
-import {app, contentContainer, user, filmsAccount, paginationAccount} from '../main.js';
+import {basicUrl, app, contentContainer, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';

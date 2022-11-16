@@ -1,5 +1,4 @@
-import {basicUrl} from '../../domain.js';
-import {app, filmsCatalog, paginationCatalog} from '../../main.js';
+import {basicUrl, app, filmsCatalog, paginationCatalog} from '../../main.js';
 import {request} from '../../tools/request.js';
 
 /**

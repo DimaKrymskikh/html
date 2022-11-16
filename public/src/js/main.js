@@ -12,6 +12,9 @@ import {pageLogin} from './pages/login.js';
 import {pageLogout} from './pages/logout.js';
 import {pageRegister} from './pages/register.js';
 
+// Переменная для хранения url сервера
+export let  basicUrl;
+
 export const app = appModel();
 export const user = userModel();
 export const filmsCatalog = filmsModel();
@@ -25,6 +28,10 @@ export const alertAuthorization = document.querySelector('#alert-authorization')
 document.body.addEventListener('click', handlerRouter);
 
 (async function() {
+    // Сохраняем url сервера в переменной basicUrl
+    const response = await fetch('basicUrl.php');
+    basicUrl = await response.text();
+    
     contentContainer.innerHTML = spinner();
     
     await loading();

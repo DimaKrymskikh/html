@@ -1,5 +1,4 @@
-import {basicUrl} from '../domain.js';
-import {app, contentContainer} from '../main.js';
+import {basicUrl, app, contentContainer} from '../main.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {filmModel} from '../models/filmModel.js';
 import {request} from '../tools/request.js';

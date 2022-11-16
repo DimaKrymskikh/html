@@ -1,5 +1,4 @@
-import {basicUrl} from '../domain.js';
-import {app} from '../main.js';
+import {basicUrl, app} from '../main.js';
 import {request} from '../tools/request.js';
 
 export async function loading() {
