@@ -3,7 +3,6 @@ import {app, paginationAccount} from '../../main.js';
 import {request} from '../../tools/request.js';
 import {getFillingErrors} from '../../components/fillingErrors.js';
 
-
 export function renderFilmRemoveModal() {
     return `
         <div class="modal fade" id="film-remove-modal" tabindex="-1">
@@ -58,7 +57,7 @@ async function requestRemoveFilm(filmId) {
     );
 }
 
-function handlerRemoveFilm(modal, request, render) {
+export function handlerRemoveFilm(modal, request, render) {
     return async function(e) {
         e.stopPropagation();
 
@@ -72,7 +71,6 @@ function handlerRemoveFilm(modal, request, render) {
             const filmRemoveModalErrors = document.getElementById('film-remove-modal-errors');
             filmRemoveModalErrors.hidden = false;
             filmRemoveModalErrors.innerHTML = getFillingErrors(result.errors);
-
         }
     };
 }
@@ -82,10 +80,9 @@ function handlerRemoveFilm(modal, request, render) {
  * @param {HTMLImageElement} tag - Элемент по которому кликнули
  * @returns {void}
  */
-export async function showFilmRemoveModal(tag, request, render) {
+export async function showFilmRemoveModal(tag, modal) {
+    modal.show();
     // Получаем нужные элементы модального окна
-    const filmRemoveModal = new bootstrap.Modal('#film-remove-modal');
-    filmRemoveModal.show();
     const spinnerBorder = document.querySelectorAll('.spinner-border');
     const removeFilmName = document.getElementById('remove-film-name');
     const removeFilmYes = document.getElementById('remove-film-yes');
@@ -96,7 +93,7 @@ export async function showFilmRemoveModal(tag, request, render) {
     document.getElementById('film-remove-password').value = '';
     // сообщение об ошибке
     const filmRemoveModalErrors = document.getElementById('film-remove-modal-errors');
-    filmRemoveModalErrors.hidden = false;
+    filmRemoveModalErrors.hidden = true;
     filmRemoveModalErrors.innerHTML = '';
     // имя фильма
     removeFilmName.innerHTML = '';
@@ -118,6 +115,4 @@ export async function showFilmRemoveModal(tag, request, render) {
     removeFilmName.innerHTML = result.title;
     removeFilmYes.innerHTML = 'Да';
     removeFilmButton.setAttribute('data-film-id', result.id);
-    // На кнопку 'Да' вешаем обработчик, удаляющий фильм
-    removeFilmButton.addEventListener('click', handlerRemoveFilm(filmRemoveModal, request, render));
 }
