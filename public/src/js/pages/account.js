@@ -1,3 +1,4 @@
+import { Modal } from 'bootstrap';
 import {basicUrl, app, contentContainer, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
@@ -48,9 +49,9 @@ function renderAccount() {
     contentContainer.innerHTML = html;
     
     // Создаем экземпляр модального окна для удаления фильма
-    const filmRemoveModal = new bootstrap.Modal('#film-remove-modal');
+    const filmRemoveModal = new Modal('#film-remove-modal');
     // Создаем экземпляр модального окна для удаления аккаунта
-    const accountRemoveModal = new bootstrap.Modal('#account-remove-modal');
+    const accountRemoveModal = new Modal('#account-remove-modal');
     
     // Если на странице имеются фильмы, то на таблицу фильмов вешаем обработчик взаимодействия с фильмами
     if (paginationAccount.itemsNumberTotal) {

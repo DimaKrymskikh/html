@@ -1,3 +1,5 @@
+import '../scss/main.scss';
+
 import {appModel} from './models/appModel.js';
 import {userModel} from './models/userModel.js';
 import {filmsModel} from './models/filmsModel.js';
