@@ -1,4 +1,4 @@
-import {app, filmsCatalog, paginationCatalog} from '../main.js';
+import {app} from '../main.js';
 import {pageReboot} from '../pages/reboot.js';
 import {pageNewLogin} from '../pages/newlogin.js'
 

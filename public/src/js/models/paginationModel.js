@@ -1,16 +1,29 @@
+/**
+ * Модуль для хранения свойств пагинации
+ * @returns {Object}
+ */
 export function paginationModel() {
+    // Активная страница
     let activePage = 0;
+    // Число элементов на странице
     let itemsNumberOnPage = 0;
+    // Общее число элементов в списке
     let itemsNumberTotal;
+    // Число страниц в списке
     let pagesNumber;
+    // Номер первой кнопки 
     let firstButton;
+    // Номер последней кнопки 
     let lastButton;
+    // Число элементов на активной странице
+    // Если активная страница - последняя страница, то elementsNumberOnActivePage может быть меньше itemsNumberOnPage
     let elementsNumberOnActivePage;
 
     /**
-     * 
-     * @param {type} data
-     * @returns {undefined}
+     * Изменяет свойства пагинации
+     * (Данные приходят с сервера, где реализуется логика вычисления свойств пагинации)
+     * @param {Object} data - Новые свойства пагинации
+     * @returns {void}
      */
     const setData = function(data) {
         for (let field in data) {
@@ -26,22 +39,15 @@ export function paginationModel() {
      * @returns {int}
      */
     const getPageAfterRemoveFilm = function() {
-//        // Номер страницы, который будет отдан на сервер при удалении одного фильма
-//        // Вначале всегда равен номеру активной странице
-//        let page = this.activePage;
-//        // Сохраняем число элементов на последней странице
-//        let elementsNumber = this.elementsNumberOnActivePage;
-//        // Если удалялся фильм на последней странице (активная страница - последняя страница), то уменьшаем число фильмов на активной странице на 1
-//        if (page * this.itemsNumberOnPage >= this.itemsNumberTotal) {
-//            elementsNumber--;
-//        }
-//        // Если удалялся фильм на последней странице и на ней после удаления не остаётся фильмов (до удаления был 1 фильм),
-//        // то уменьшаем на 1 номер страницы, который будет отдан на сервер
-//        if (elementsNumber === 0) {
-//            page--;
-//        }
-//        
         return this.elementsNumberOnActivePage - 1 ? this.activePage : this.activePage - 1;
+    };
+
+    /**
+     * Если нет элементов в списке, то возвращает true, чтобы скрыть пагинацию на странице
+     * @returns {Boolean}
+     */
+    const isHiddenPagination = function() {
+        return !this.itemsNumberTotal;
     };
     
     return {
@@ -53,6 +59,7 @@ export function paginationModel() {
         lastButton,
         elementsNumberOnActivePage,
         setData,
-        getPageAfterRemoveFilm
+        getPageAfterRemoveFilm,
+        isHiddenPagination
     };
 }

@@ -29,10 +29,6 @@ export function paginationBlok(pagination) {
     return html;
 }
 
-function isHiddenPagination(pagination) {
-    return !pagination.itemsNumberTotal;
-}
-
 export function turnPage(container, pagination, request, render) {
     function handlerPagination(request) {
         return async function(e) {
@@ -50,5 +46,5 @@ export function turnPage(container, pagination, request, render) {
     
     container.addEventListener('click', handlerPagination(request));
     // Если на странице нет фильмов, пагинацию не показываем
-    container.hidden = isHiddenPagination(pagination);
+    container.hidden = pagination.isHiddenPagination;
 }
