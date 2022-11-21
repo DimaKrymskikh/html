@@ -7,6 +7,7 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'public/dist')
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [{
             test: /\.(scss)$/,

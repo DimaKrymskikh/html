@@ -5,9 +5,10 @@ import {request} from '../../tools/request.js';
  * Отрисовывает на странице "Каталог" таблицу всех фильмов
  * @returns {String}
  */
-export function renderAllFilmsTable() {
+export function renderAllFilmsTable(dropdown) {
     let html = `
         <h1>Список всех фильмов</h1>
+        ${dropdown}
         <table id="films-table" class="table table-striped table-hover  caption-top table-bordered">
             <caption>Показано ${paginationCatalog.elementsNumberOnActivePage} фильмов из ${paginationCatalog.itemsNumberTotal}</caption>
             <thead>

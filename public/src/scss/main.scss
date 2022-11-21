@@ -8,13 +8,15 @@
 .pagination-container .page-item,
 img.removal-film,
 img.film-card,
-img[src="src/svg/plus-circle.svg"]
+img[src="src/svg/plus-circle.svg"],
+.dropdown .dropdown-item
 {
     cursor: pointer;
 }
 
 .pagination-container .page-item.active,
-.pagination-container .page-item.disabled
+.pagination-container .page-item.disabled,
+.dropdown .dropdown-item.active
 {
     cursor: default;
 }

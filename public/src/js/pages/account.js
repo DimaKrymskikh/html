@@ -7,7 +7,9 @@ import {renderFilmCard} from './filmCard.js';
 import {renderPersonalFilmsTable} from './account/filmsTable.js';
 import {renderFilmRemoveModal, showFilmRemoveModal, handlerRemoveFilm} from './account/filmRemoveModal.js';
 import {renderAccountRemoveButton, renderAccountRemoveModal, showAccountRemoveModal, handlerAccountRemove} from './account/accountDeletionModal.js';
+import {getDropdown, changeElementsNumber} from '../components/dropdown.js';
 
+// Получаем хлебные крошки
 const breadcrumb = getBreadcrumb([{
                 hash: '#',
                 text: 'Главная страница'
@@ -15,13 +17,18 @@ const breadcrumb = getBreadcrumb([{
                 text: 'Личный кабинет'
             }]);
 
+
 function content() {
+    // Получаем узел для выбора числа элементов на странице
+    const dropdown = getDropdown('Число фильмов на странице', [10, 20, 50, 100], 'dropdown-films', paginationAccount);
+
     let htmlContent = `
         <div id="personalArea">
             ${breadcrumb}
         
             <h1>${user.login}. Личный кабинет</h1>
-            <h2>Список доступных фильмов</h2>`;
+            <h2>Список доступных фильмов</h2>
+            ${dropdown}`;
     
     if (paginationAccount.itemsNumberTotal) {
         htmlContent += renderPersonalFilmsTable();
@@ -43,6 +50,10 @@ function content() {
     return htmlContent;
 };
 
+/**
+ * Отрисовывает страницу аккаунта
+ * @returns {void}
+ */
 function renderAccount() {
     let html = content();
     html += paginationBlok(paginationAccount);
@@ -67,12 +78,21 @@ function renderAccount() {
     document.getElementById('account-remove-button').addEventListener('click', handlerAccountRemove(accountRemoveModal));
     // На кнопку "Удалить" (удалить аккаунт) вешаем обработчик, который открывает модальное окно для удаления аккаунта
     document.getElementById('account-show-button').addEventListener('click', showAccountRemoveModal(accountRemoveModal));
+    // Изменяет число элементов на странице
+    changeElementsNumber(document.getElementById('dropdown-films'), requestAccount, renderAccount);
 }
 
+/**
+ * Осуществляет запрос на сервер для получения списка фильмов и параметров пагинации
+ * @param {Object|int} pagination
+ * @param {int} page
+ * @returns {undefined}
+ */
 async function requestAccount(pagination, page) {
     let pageOnServer = arguments.length === 2 ? page : pagination.activePage;
+    let itemsNumberOnPage = typeof pagination === "object" ? pagination.itemsNumberOnPage : pagination;
     
-    await request(`${basicUrl}/account/index/${pageOnServer}/${pagination.itemsNumberOnPage}`, 'POST',
+    await request(`${basicUrl}/account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud
@@ -84,6 +104,11 @@ async function requestAccount(pagination, page) {
     );
 };
 
+/**
+ * Управляет взаимодействием с фильмами
+ * @param {Object} modal
+ * @returns {Function}
+ */
 function handlerFilms(modal) {
     return function(e) {
         if (e.target.className.toLowerCase().trim() === 'film-card') {
@@ -96,6 +121,10 @@ function handlerFilms(modal) {
     };
 };
 
+/**
+ * Отрисовывает страницу аккаунта
+ * @returns {void}
+ */
 export async function pageAccount() {
     document.title = 'Личный кабинет';
     
