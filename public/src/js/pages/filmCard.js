@@ -2,9 +2,12 @@ import {basicUrl, app} from '../main.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {filmModel} from '../models/filmModel.js';
 import {request} from '../tools/request.js';
+import {spinner} from '../components/spinner.js';
 
 const film = filmModel();
+const contentContainer = document.querySelector('#content-container');
 
+// Хлебные крошки для карточки фильма
 const breadcrumb = getBreadcrumb([{
                 hash: '#',
                 text: 'Главная страница'
@@ -14,7 +17,11 @@ const breadcrumb = getBreadcrumb([{
             }, {
                 text: 'Карточка фильма'
             }]);
-
+/**
+ * Контент карточки фильма
+ * @param {Object} film
+ * @returns {Window.html|String}
+ */
 function content(film) {
     
     let html = `
@@ -53,7 +60,13 @@ function content(film) {
     return html;
 }
 
+/**
+ * Запрос на получение данных фильма с id = filmId
+ * @param {int} filmId
+ * @returns {void}
+ */
 async function requestFilmCard(filmId) {
+    contentContainer.innerHTML = spinner();
     await request(`${basicUrl}/account/filmCard/${filmId}`, 'POST',
         JSON.stringify({
             token: app.token,
@@ -63,8 +76,13 @@ async function requestFilmCard(filmId) {
     );
 };
 
+/**
+ * Отрисовка карточки фильма
+ * @param {type} filmId
+ * @returns {void}
+ */
 export async function renderFilmCard(filmId) {
     await requestFilmCard(filmId);
     document.title = `Фильм: ${film.title}`;
-    document.querySelector('#content-container').innerHTML = content(film);
+    contentContainer.innerHTML = content(film);
 }
