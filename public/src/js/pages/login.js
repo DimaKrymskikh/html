@@ -1,4 +1,4 @@
-import {basicUrl, app, user, alertAuthorization} from '../main.js';
+import {basicUrl, app, user} from '../main.js';
 import {pageHome} from './home.js';
 import {getBreadcrumb} from '../components/breadcrumb.js'
 import {spinner} from '../components/spinner.js';
@@ -63,7 +63,7 @@ async function handlerLogin(e) {
     );
     
     if (!result.errors.length) {
-        alertAuthorization.hidden = true;
+        document.querySelector('#alert-authorization').hidden = true;
         pageHome();
     } else {
         // Если пара логин-пароль не верна, то востановливаем форму

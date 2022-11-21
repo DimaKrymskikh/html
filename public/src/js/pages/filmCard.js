@@ -17,6 +17,7 @@ const breadcrumb = getBreadcrumb([{
             }, {
                 text: 'Карточка фильма'
             }]);
+
 /**
  * Контент карточки фильма
  * @param {Object} film

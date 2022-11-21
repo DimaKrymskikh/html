@@ -1,4 +1,4 @@
-import {basicUrl, app, alertAuthorization} from '../main.js';
+import {basicUrl, app} from '../main.js';
 import {pageHome} from './home.js';
 import {request} from '../tools/request.js';
 
@@ -12,6 +12,6 @@ export async function pageLogout() {
         {app}
     );
     
-    alertAuthorization.hidden = false;
+    document.querySelector('#alert-authorization').hidden = false;
     pageHome(); 
 }

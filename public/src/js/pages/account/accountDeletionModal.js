@@ -1,4 +1,4 @@
-import {basicUrl, app, user, alertAuthorization} from '../../main.js';
+import {basicUrl, app, user} from '../../main.js';
 import {pageHome} from '../home.js';
 import {request} from '../../tools/request.js';
 import {getFillingErrors} from '../../components/fillingErrors.js';
@@ -63,7 +63,7 @@ export function handlerAccountRemove(modal) {
 
         if (result.errors.length === 0) {
             modal.hide();
-            alertAuthorization.hidden = true;
+            document.querySelector('#alert-authorization').hidden = true;
             pageHome();
             user = null;
         } else {
