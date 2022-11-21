@@ -24,7 +24,6 @@ export const filmsAccount = filmsModel();
 export const paginationCatalog = paginationModel();
 export const paginationAccount = paginationModel();
 export const nav = navigationBar();
-export const alertAuthorization = document.querySelector('#alert-authorization');
 
 const contentContainer = document.querySelector('#content-container');
 
