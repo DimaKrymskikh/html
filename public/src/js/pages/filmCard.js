@@ -1,4 +1,4 @@
-import {basicUrl, app, contentContainer} from '../main.js';
+import {basicUrl, app} from '../main.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {filmModel} from '../models/filmModel.js';
 import {request} from '../tools/request.js';
@@ -66,5 +66,5 @@ async function requestFilmCard(filmId) {
 export async function renderFilmCard(filmId) {
     await requestFilmCard(filmId);
     document.title = `Фильм: ${film.title}`;
-    contentContainer.innerHTML = content(film);
+    document.querySelector('#content-container').innerHTML = content(film);
 }

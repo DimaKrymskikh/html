@@ -1,4 +1,4 @@
-import {basicUrl, app, filmsCatalog, paginationCatalog, contentContainer} from '../main.js';
+import {basicUrl, app, filmsCatalog, paginationCatalog} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
@@ -23,12 +23,16 @@ function renderCatalog() {
     html += renderAllFilmsTable();
     // блок пагинации
     html += paginationBlok(paginationCatalog);
-    contentContainer.innerHTML = html;
+    document.querySelector('#content-container').innerHTML = html;
+    // Скрываем пагинацию, если нужно
+    const paginationContainer = document.querySelector('.pagination-container');
+    paginationContainer.hidden = paginationCatalog.isHiddenPagination();
+    
     // Добавляем событие, которое добавляет фильм в список пользователя
     const filmsTable = document.getElementById('films-table');
     addFilm(filmsTable);
     // Обработка переключения страниц
-    turnPage(document.querySelector('.pagination-container'), paginationCatalog , requestCatalog, renderCatalog);
+    turnPage(paginationContainer, paginationCatalog , requestCatalog, renderCatalog);
 }
 
 /**

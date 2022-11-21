@@ -1,9 +1,11 @@
-import {basicUrl, app, user, alertAuthorization, contentContainer} from '../main.js';
+import {basicUrl, app, user, alertAuthorization} from '../main.js';
 import {pageHome} from './home.js';
 import {getBreadcrumb} from '../components/breadcrumb.js'
 import {spinner} from '../components/spinner.js';
 import {getFillingErrors} from '../components/fillingErrors.js';
 import {request} from '../tools/request.js';
+
+const contentContainer = document.querySelector('#content-container');
 
 const breadcrumb = getBreadcrumb([{
                 hash: '#',

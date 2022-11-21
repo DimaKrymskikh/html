@@ -1,4 +1,4 @@
-import {app, contentContainer, nav} from '../main.js';
+import {app, nav} from '../main.js';
 import {getBreadcrumb} from '../components/breadcrumb.js'
 
 // Получаем хлебные крошки
@@ -15,7 +15,7 @@ export function pageHome() {
     location.href = '#';
     document.title = 'Главная страница';
     nav.navBar(app.isGuest);
-    contentContainer.innerHTML = `
+    document.querySelector('#content-container').innerHTML = `
         ${breadcrumb}
         <h1>Главная страница</h1>`;
 }

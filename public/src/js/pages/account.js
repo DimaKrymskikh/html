@@ -1,5 +1,5 @@
 import { Modal } from 'bootstrap';
-import {basicUrl, app, contentContainer, user, filmsAccount, paginationAccount} from '../main.js';
+import {basicUrl, app, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
@@ -46,7 +46,7 @@ function content() {
 function renderAccount() {
     let html = content();
     html += paginationBlok(paginationAccount);
-    contentContainer.innerHTML = html;
+    document.querySelector('#content-container').innerHTML = html;
     
     // Создаем экземпляр модального окна для удаления фильма
     const filmRemoveModal = new Modal('#film-remove-modal');

@@ -1,3 +1,4 @@
+import {spinner} from './spinner.js';
 
 export function paginationBlok(pagination) {
     let disabledFirstActivePage = pagination.activePage === 1 ? 'disabled' : '';
@@ -38,7 +39,8 @@ export function turnPage(container, pagination, request, render) {
             } else {
                 return;
             }
-            
+         
+            document.querySelector('#content-container').innerHTML = spinner();
             await request(pagination, tag.getAttribute('data-page'));
             render();
         };
@@ -46,5 +48,5 @@ export function turnPage(container, pagination, request, render) {
     
     container.addEventListener('click', handlerPagination(request));
     // Если на странице нет фильмов, пагинацию не показываем
-    container.hidden = pagination.isHiddenPagination;
+    container.hidden = pagination.isHiddenPagination();
 }
