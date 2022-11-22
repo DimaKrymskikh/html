@@ -2,6 +2,8 @@ import {basicUrl, app, filmsCatalog, paginationCatalog} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
+import {sortInput} from '../tools/sortInput.js';
+import {putFilms} from '../tools/putFilms.js';
 import {renderAllFilmsTable, addFilm} from './catalog/filmsTable.js';
 import {getDropdown, changeElementsNumber} from '../components/dropdown.js';
 
@@ -31,7 +33,11 @@ function renderCatalog() {
     // Скрываем пагинацию, если нужно
     const paginationContainer = document.querySelector('.pagination-container');
     paginationContainer.hidden = paginationCatalog.isHiddenPagination();
-    
+    // Задаем события для фильтровки списка фильмов
+    sortInput(document.getElementById('sort-film-title'), filmsCatalog, 'setSortFilmTitle');
+    putFilms(document.getElementById('sort-film-title'), paginationCatalog, requestCatalog, renderCatalog);
+    sortInput(document.getElementById('sort-film-description'), filmsCatalog, 'setSortFilmDescription');
+    putFilms(document.getElementById('sort-film-description'), paginationCatalog, requestCatalog, renderCatalog);
     // Добавляем событие, которое добавляет фильм в список пользователя
     addFilm(document.getElementById('films-table'));
     // Обработка переключения страниц
@@ -54,7 +60,9 @@ const requestCatalog = async function(pagination, page) {
     await request(`${basicUrl}/film/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
-            aud: app.aud
+            aud: app.aud,
+            sortFilmTitle: filmsCatalog.sortFilmTitle,
+            sortFilmDescription: filmsCatalog.sortFilmDescription
         }),
         {
             films: filmsCatalog,

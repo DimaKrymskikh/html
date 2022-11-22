@@ -3,6 +3,8 @@ import {basicUrl, app, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
+import {sortInput} from '../tools/sortInput.js';
+import {putFilms} from '../tools/putFilms.js';
 import {renderFilmCard} from './filmCard.js';
 import {renderPersonalFilmsTable} from './account/filmsTable.js';
 import {renderFilmRemoveModal, showFilmRemoveModal, handlerRemoveFilm} from './account/filmRemoveModal.js';
@@ -19,18 +21,16 @@ const breadcrumb = getBreadcrumb([{
 
 
 function content() {
-    // Получаем узел для выбора числа элементов на странице
-    const dropdown = getDropdown('Число фильмов на странице', [10, 20, 50, 100], 'dropdown-films', paginationAccount);
-
     let htmlContent = `
         <div id="personalArea">
             ${breadcrumb}
         
             <h1>${user.login}. Личный кабинет</h1>
-            <h2>Список доступных фильмов</h2>
-            ${dropdown}`;
+            <h2>Список доступных фильмов</h2>`;
     
-    if (paginationAccount.itemsNumberTotal) {
+    if (paginationAccount.itemsNumberTotal || filmsAccount.sortFilmTitle || filmsAccount.sortFilmDescription) {
+        // Узел для выбора числа элементов на странице
+        htmlContent += getDropdown('Число фильмов на странице', [10, 20, 50, 100], 'dropdown-films', paginationAccount);
         htmlContent += renderPersonalFilmsTable();
     } else {
         htmlContent += `
@@ -64,9 +64,17 @@ function renderAccount() {
     // Создаем экземпляр модального окна для удаления аккаунта
     const accountRemoveModal = new Modal('#account-remove-modal');
     
-    // Если на странице имеются фильмы, то на таблицу фильмов вешаем обработчик взаимодействия с фильмами
-    if (paginationAccount.itemsNumberTotal) {
+    // Если на странице имеются фильмы или вводились фильтры,
+    // то на таблицу фильмов вешаем обработчик взаимодействия с фильмами и обработчики фильтрации списка фильмов
+    if (paginationAccount.itemsNumberTotal || filmsAccount.sortFilmTitle || filmsAccount.sortFilmDescription) {
         document.getElementById('personal-films-table').addEventListener('click', handlerFilms(filmRemoveModal));
+        // Задаем события для фильтровки списка фильмов
+        sortInput(document.getElementById('sort-film-title'), filmsAccount, 'setSortFilmTitle');
+        putFilms(document.getElementById('sort-film-title'), paginationAccount, requestAccount, renderAccount);
+        sortInput(document.getElementById('sort-film-description'), filmsAccount, 'setSortFilmDescription');
+        putFilms(document.getElementById('sort-film-description'), paginationAccount, requestAccount, renderAccount);
+        // Изменяет число элементов на странице
+        changeElementsNumber(document.getElementById('dropdown-films'), requestAccount, renderAccount);
     }
     // Обработка переключения страниц
     turnPage(document.querySelector('.pagination-container'), paginationAccount, requestAccount, renderAccount);
@@ -78,8 +86,6 @@ function renderAccount() {
     document.getElementById('account-remove-button').addEventListener('click', handlerAccountRemove(accountRemoveModal));
     // На кнопку "Удалить" (удалить аккаунт) вешаем обработчик, который открывает модальное окно для удаления аккаунта
     document.getElementById('account-show-button').addEventListener('click', showAccountRemoveModal(accountRemoveModal));
-    // Изменяет число элементов на странице
-    changeElementsNumber(document.getElementById('dropdown-films'), requestAccount, renderAccount);
 }
 
 /**
@@ -95,7 +101,9 @@ async function requestAccount(pagination, page) {
     await request(`${basicUrl}/account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
-            aud: app.aud
+            aud: app.aud,
+            sortFilmTitle: filmsAccount.sortFilmTitle,
+            sortFilmDescription: filmsAccount.sortFilmDescription
         }),
         {
             films: filmsAccount,

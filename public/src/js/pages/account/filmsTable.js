@@ -18,9 +18,16 @@ export function renderPersonalFilmsTable() {
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
+                    <tr scope="col">
+                        <th scope="col"></th>
+                        <th scope="col"><input type="text" id="sort-film-title" class="form-control" value="${filmsAccount.sortFilmTitle}"></th>
+                        <th scope="col"><input type="text" id="sort-film-description" class="form-control" value="${filmsAccount.sortFilmDescription}"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
                 </thead>
-                <tbody>
-    `;
+                <tbody>`;
     
     filmsAccount.films.forEach( (item) => {
         html += `<tr>
@@ -49,4 +56,3 @@ export function renderPersonalFilmsTable() {
     
     return html;
 }
-
