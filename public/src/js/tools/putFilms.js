@@ -10,7 +10,7 @@ import {spinner} from '../components/spinner.js';
  */
 export function putFilms(tag, pagination, request, render) {
     async function handlerPutFilms(e) {
-        if(e.key !== "Enter") {
+        if(e.key.toLowerCase() !== "enter") {
             return;
         }
          
