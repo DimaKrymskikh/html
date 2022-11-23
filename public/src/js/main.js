@@ -27,39 +27,69 @@ export const nav = navigationBar();
 
 const contentContainer = document.querySelector('#content-container');
 
+// Отслеживает клики по ссылкам.
+// href ссылок должен состоять только из hash
 document.body.addEventListener('click', handlerRouter);
-
-(async function() {
-    // Сохраняем url сервера в переменной basicUrl
-    const response = await fetch('basicUrl.php');
-    basicUrl = await response.text();
-    
-    contentContainer.innerHTML = spinner();
-    
-    await loading();
-    
-    pageHome();
-})();
-
-function handlerRouter(e) {
+/**
+ * Переключает страницы приложения
+ * @param {Event} e
+ * @returns {void}
+ */
+async function handlerRouter(e) {
     let tag;
     
-    if (e.target.tagName.toLowerCase() === 'a') {
+    if (e.target.tagName.toLowerCase() === 'a' && !e.target.classList.contains('ban')) {
         tag = e.target;
-    } else if (e.target.parentNode.tagName.toLowerCase() === 'a') {
+    } else if (e.target.parentNode.tagName.toLowerCase() === 'a' && !e.target.parentNode.classList.contains('ban')) {
         tag = e.target.parentNode;
     } else {
         return;
     }
     
+    addBanLink();
     contentContainer.innerHTML = spinner();
-    
     switch(tag.hash) {
         case '': pageHome(); break;
-        case '#catalog': pageCatalog(); break;
-        case '#account': pageAccount(); break;
+        case '#catalog': await pageCatalog(); break;
+        case '#account': await pageAccount(); break;
         case '#login': pageLogin(); break;
-        case '#logout': pageLogout(); break;
+        case '#logout': await pageLogout(); break;
         case '#register': pageRegister(); break;
     }
+    removeBanLink();
 }
+
+/**
+ * Используется для блоктрования ссылок для избежания повторных запросов
+ * @returns {void}
+ */
+function addBanLink() {
+    document.querySelectorAll('a').forEach( (item) => {
+        item.classList.add('ban');
+    });
+}
+
+/**
+ * Используется для разблоктрования ссылок
+ * @returns {void}
+ */
+function removeBanLink() {
+    document.querySelectorAll('a').forEach( (item) => {
+        item.classList.remove('ban');
+    });
+}
+
+// Содержит запросы при загрузке приложения
+(async function() {
+    addBanLink();
+    contentContainer.innerHTML = spinner();
+    
+    // Сохраняем url сервера в переменной basicUrl
+    const response = await fetch('basicUrl.php');
+    basicUrl = await response.text();
+    
+    await loading();
+    
+    pageHome();
+    removeBanLink();
+})();
