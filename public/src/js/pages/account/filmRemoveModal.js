@@ -1,6 +1,11 @@
 import {basicUrl, app, paginationAccount} from '../../main.js';
 import {request} from '../../tools/request.js';
 import {getFillingErrors} from '../../components/fillingErrors.js';
+import {spinner} from '../../components/spinner.js';
+import {objectUtil} from '../../tools/objectUtil.js';
+
+// Получаем доступ к полезным методам
+const oU = objectUtil();
 
 export function renderFilmRemoveModal() {
     return `
@@ -17,10 +22,11 @@ export function renderFilmRemoveModal() {
                         <span id="remove-film-name"></span>?
                         <div class="mb-3">
                             <label class="form-label">Введите пароль: 
-                                <input type="password" class="form-control" id="film-remove-password"/>
+                                <span class="spinner-border spinner-border-sm"></span>
+                                <input type="password" class="form-control" id="remove-film-password"/>
                             </label>
                         </div>
-                        <div id="film-remove-modal-errors" class="list-group" hidden></div>
+                        <div id="remove-film-modal-errors" class="list-group" hidden></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
@@ -28,7 +34,7 @@ export function renderFilmRemoveModal() {
                             type="button" id="remove-film-button" class="btn btn-danger"
                         >
                             <span class="spinner-border spinner-border-sm" role="status"></span>
-                            <span id="remove-film-yes"></span>
+                            <span id="remove-film-yes">Да</span>
                         </button>
                     </div>
                 </div>
@@ -37,6 +43,11 @@ export function renderFilmRemoveModal() {
     `;
 }
 
+/**
+ * По id фильма возвращает данные о фильме для модального окна, удаляющего фильм из аккаунта пользователя
+ * @param {int} filmId
+ * @returns {Object}
+ */
 async function requestGetFilm(filmId) {
     return  await request(`${basicUrl}/account/getFilm/${filmId}`, 'POST',
         JSON.stringify({
@@ -46,28 +57,59 @@ async function requestGetFilm(filmId) {
     );
 };
 
+/**
+ * Отправляет запрос на удаление фильма с id = filmId
+ * Возвращает объект с массивом ошибок 
+ * @param {int} filmId
+ * @returns {Object}
+ */
 async function requestRemoveFilm(filmId) {
     return  await request(`${basicUrl}/userFilm/${filmId}`, 'DELETE',
         JSON.stringify({
             token: app.token,
             aud: app.aud,
-            password: document.getElementById('film-remove-password').value
+            password: document.getElementById('remove-film-password').value
         })
     );
 }
 
+/**
+ * Обработчик удаления фильма
+ * @param {Object} modal
+ * @param {Function} request
+ * @param {Function} render
+ * @returns {Function}
+ */
 export function handlerRemoveFilm(modal, request, render) {
     return async function(e) {
         e.stopPropagation();
+        // Получаем нужные элементы
+        const filmRemovePassword = document.getElementById('remove-film-password');
+        const removeFilmYes = document.getElementById('remove-film-yes');
+        const filmRemoveModalErrors = document.getElementById('remove-film-modal-errors');
+        // Запускаем спиннеры вместо элементов
+        oU.showSpinner(filmRemovePassword);
+        oU.showSpinner(removeFilmYes);
+        // Скрываем сообщение об ошибке
+        filmRemoveModalErrors.hidden = true;
 
         const result = await requestRemoveFilm(e.currentTarget.getAttribute('data-film-id'));
         if (result.errors.length === 0) {
+            // Если пароль был введён правильно, то скрываем модальное окно
             modal.hide();
+            // Стираем страницу аккаунта и запускаем большой спиннер
+            document.querySelector('#content-container').innerHTML = spinner();
+            // Отправляем запрос на обновление страницы аккаунта
             await request(paginationAccount, paginationAccount.getPageAfterRemoveFilm());
+            // Отрисовываем страницу аккаунта
             render();
         } else {
-            document.getElementById('film-remove-password').value = '';
-            const filmRemoveModalErrors = document.getElementById('film-remove-modal-errors');
+            // Если был введён неверный пароль, то очищаем поле ввода пароля
+            filmRemovePassword.value = '';
+            // Убираем спиннеры и показываем элементы
+            oU.hideSpinner(filmRemovePassword);
+            oU.hideSpinner(removeFilmYes);
+            // Отрисовываем сообщение об ошибке
             filmRemoveModalErrors.hidden = false;
             filmRemoveModalErrors.innerHTML = getFillingErrors(result.errors);
         }
@@ -82,36 +124,35 @@ export function handlerRemoveFilm(modal, request, render) {
 export async function showFilmRemoveModal(tag, modal) {
     modal.show();
     // Получаем нужные элементы модального окна
-    const spinnerBorder = document.querySelectorAll('.spinner-border');
     const removeFilmName = document.getElementById('remove-film-name');
     const removeFilmYes = document.getElementById('remove-film-yes');
-    const removeFilmButton = document.getElementById('remove-film-button');
+    const removeFilmPassword = document.getElementById('remove-film-password');
+    const removeFilmModalErrors = document.getElementById('remove-film-modal-errors');
 
     // Очищаем данные модального окна:
     // пароль
-    document.getElementById('film-remove-password').value = '';
+    removeFilmPassword.value = '';
     // сообщение об ошибке
-    const filmRemoveModalErrors = document.getElementById('film-remove-modal-errors');
-    filmRemoveModalErrors.hidden = true;
-    filmRemoveModalErrors.innerHTML = '';
+    removeFilmModalErrors.hidden = true;
+    removeFilmModalErrors.innerHTML = '';
     // имя фильма
     removeFilmName.innerHTML = '';
-    // слово "Да" на кнопке
-    removeFilmYes.innerHTML = '';
-    // Запускаем спинер
-    Array.from(spinnerBorder).forEach( (item) => {
-        item.classList.remove('visually-hidden');
-    });
+    // Запускаем спиннеры вместо элементов
+    oU.showSpinner(removeFilmName);
+    oU.showSpinner(removeFilmYes);
+    oU.showSpinner(removeFilmPassword);
 
     // Отправляем запрос для получения данных фильма
     const result = await requestGetFilm(tag.getAttribute('data-film-id'));
 
-    // Убираем спинеры
-    Array.from(spinnerBorder).forEach( (item) => {
-        item.classList.add('visually-hidden');
-    });
+    // Убираем спиннеры и показываем элементы
+    oU.hideSpinner(removeFilmName);
+    oU.hideSpinner(removeFilmYes);
+    oU.hideSpinner(removeFilmPassword);
+    
+    // Показываем поле ввода пароля
+    removeFilmPassword.hidden = false;
     // добавляем полученые данные 
     removeFilmName.innerHTML = result.title;
-    removeFilmYes.innerHTML = 'Да';
-    removeFilmButton.setAttribute('data-film-id', result.id);
+    document.getElementById('remove-film-button').setAttribute('data-film-id', result.id);
 }

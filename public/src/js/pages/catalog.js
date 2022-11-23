@@ -2,10 +2,13 @@ import {basicUrl, app, filmsCatalog, paginationCatalog} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
-import {sortInput} from '../tools/sortInput.js';
+import {objectUtil} from '../tools/objectUtil.js';
 import {putFilms} from '../tools/putFilms.js';
 import {renderAllFilmsTable, addFilm} from './catalog/filmsTable.js';
 import {getDropdown, changeElementsNumber} from '../components/dropdown.js';
+
+// Получаем доступ к полезным методам
+const oU = objectUtil();
 
 // Получаем хлебные крошки
 const breadcrumb = getBreadcrumb([{
@@ -34,9 +37,9 @@ function renderCatalog() {
     const paginationContainer = document.querySelector('.pagination-container');
     paginationContainer.hidden = paginationCatalog.isHiddenPagination();
     // Задаем события для фильтровки списка фильмов
-    sortInput(document.getElementById('sort-film-title'), filmsCatalog, 'setSortFilmTitle');
+    oU.sortInput(document.getElementById('sort-film-title'), filmsCatalog, 'setSortFilmTitle');
     putFilms(document.getElementById('sort-film-title'), paginationCatalog, requestCatalog, renderCatalog);
-    sortInput(document.getElementById('sort-film-description'), filmsCatalog, 'setSortFilmDescription');
+    oU.sortInput(document.getElementById('sort-film-description'), filmsCatalog, 'setSortFilmDescription');
     putFilms(document.getElementById('sort-film-description'), paginationCatalog, requestCatalog, renderCatalog);
     // Добавляем событие, которое добавляет фильм в список пользователя
     addFilm(document.getElementById('films-table'));

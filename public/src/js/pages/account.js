@@ -3,13 +3,16 @@ import {basicUrl, app, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {request} from '../tools/request.js';
-import {sortInput} from '../tools/sortInput.js';
+import {objectUtil} from '../tools/objectUtil.js';
 import {putFilms} from '../tools/putFilms.js';
 import {renderFilmCard} from './filmCard.js';
 import {renderPersonalFilmsTable} from './account/filmsTable.js';
 import {renderFilmRemoveModal, showFilmRemoveModal, handlerRemoveFilm} from './account/filmRemoveModal.js';
 import {renderAccountRemoveButton, renderAccountRemoveModal, showAccountRemoveModal, handlerAccountRemove} from './account/accountDeletionModal.js';
 import {getDropdown, changeElementsNumber} from '../components/dropdown.js';
+
+// Получаем доступ к полезным методам
+const oU = objectUtil();
 
 // Получаем хлебные крошки
 const breadcrumb = getBreadcrumb([{
@@ -69,9 +72,9 @@ function renderAccount() {
     if (paginationAccount.itemsNumberTotal || filmsAccount.sortFilmTitle || filmsAccount.sortFilmDescription) {
         document.getElementById('personal-films-table').addEventListener('click', handlerFilms(filmRemoveModal));
         // Задаем события для фильтровки списка фильмов
-        sortInput(document.getElementById('sort-film-title'), filmsAccount, 'setSortFilmTitle');
+        oU.sortInput(document.getElementById('sort-film-title'), filmsAccount, 'setSortFilmTitle');
         putFilms(document.getElementById('sort-film-title'), paginationAccount, requestAccount, renderAccount);
-        sortInput(document.getElementById('sort-film-description'), filmsAccount, 'setSortFilmDescription');
+        oU.sortInput(document.getElementById('sort-film-description'), filmsAccount, 'setSortFilmDescription');
         putFilms(document.getElementById('sort-film-description'), paginationAccount, requestAccount, renderAccount);
         // Изменяет число элементов на странице
         changeElementsNumber(document.getElementById('dropdown-films'), requestAccount, renderAccount);
