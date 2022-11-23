@@ -43,7 +43,9 @@ export function renderAllFilmsTable(dropdown) {
             if (item.isAvailable) {
                 html += `<img src="src/svg/check-circle.svg" alt="Домашняя страница" data-film-id="${item.id}">`;
             } else {
-                html += `<img src="src/svg/plus-circle.svg" alt="Домашняя страница" data-film-id="${item.id}">`;
+                html += `
+                    <span class="spinner-border spinner-border-sm visually-hidden"></span>
+                    <img class="add-film" src="src/svg/plus-circle.svg" alt="Домашняя страница" data-film-id="${item.id}">`;
             }
             html += `</td>`;
         }
@@ -72,7 +74,7 @@ export function addFilm(container) {
         );
     }
     // Обработка клика по картинке 'plus-circle.svg'
-    function handlerAddFilm(e) {
+    async function handlerAddFilm(e) {
         let tag;
         // Клик должен быть по картинке 'plus-circle.svg'
         if (e.target.hasAttribute('src') && e.target.getAttribute('src').toLowerCase().trim() === 'src/svg/plus-circle.svg') {
@@ -80,12 +82,21 @@ export function addFilm(container) {
         } else {
             return;
         }
-        // При неудачнм ответе завершаем функцию
-        if (!requestAddFilm(tag.getAttribute('data-film-id'))) {
-            return;
-        }
+        
+        const parentTarget = tag.parentNode;
+        const spinnerBorder = parentTarget.querySelector('.spinner-border');
+        // Скрываем плюс
+        tag.hidden = true;
+        // Запускаем спиннер
+        spinnerBorder.classList.remove('visually-hidden');
+        // Отправляем запрос
+        await requestAddFilm(tag.getAttribute('data-film-id'));
         // Меняем плюс на галочку
         tag.setAttribute('src', 'src/svg/check-circle.svg');
+        // Показываем галочку
+        tag.hidden = false;
+        // Убираем спиннер
+        spinnerBorder.classList.add('visually-hidden');
     }
     // Обработчик клика по картинке 'plus-circle.svg' (Событие делегируется на <table id="films-table">)
     container.addEventListener('click', handlerAddFilm);
