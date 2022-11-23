@@ -2,11 +2,12 @@
  * @jest-environment jsdom
  */
 
-import {sortInput} from '../../public/src/js/tools/sortInput.js';
+import {objectUtil} from '../../public/src/js/tools/objectUtil.js';
 import {filmsModel} from '../../public/src/js/models/filmsModel.js';
 
 describe('Проверка обновления фильтров', () => {
     const films = filmsModel();
+    const oU = objectUtil();
     
     document.body.innerHTML = `
         <div>
@@ -19,7 +20,7 @@ describe('Проверка обновления фильтров', () => {
     
     test('Проверка изменения фильтра по названию фильмов', () => {
         // Вешаем событие
-        sortInput(sortFilmTitle, films, 'setSortFilmTitle');
+        oU.sortInput(sortFilmTitle, films, 'setSortFilmTitle');
         // Создаем событие input
         const inputEvent = new Event('input');
         // Изменяем значения текстового поля
@@ -35,7 +36,7 @@ describe('Проверка обновления фильтров', () => {
     });
     
     test('Проверка изменения фильтра по описанию фильмов', () => {
-        sortInput(sortFilmDescription, films, 'setSortFilmDescription');
+        oU.sortInput(sortFilmDescription, films, 'setSortFilmDescription');
         sortFilmDescription.value = 'qqqq';
         sortFilmDescription.dispatchEvent(new Event('input'));
         expect(films.sortFilmDescription).toBe('qqqq');
