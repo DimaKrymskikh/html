@@ -65,7 +65,7 @@ function renderAccount() {
     // Создаем экземпляр модального окна для удаления фильма
     const filmRemoveModal = new Modal('#film-remove-modal');
     // Создаем экземпляр модального окна для удаления аккаунта
-    const accountRemoveModal = new Modal('#account-remove-modal');
+    const removeAccountModal = new Modal('#remove-account-modal');
     
     // Если на странице имеются фильмы или вводились фильтры,
     // то на таблицу фильмов вешаем обработчик взаимодействия с фильмами и обработчики фильтрации списка фильмов
@@ -86,9 +86,9 @@ function renderAccount() {
     document.getElementById('remove-film-button').addEventListener('click', handlerRemoveFilm(filmRemoveModal, requestAccount, renderAccount));
     
     // На кнопку 'Да' модального окна для удаления аккаунта вешаем обработчик, удаляющий аккаунт
-    document.getElementById('account-remove-button').addEventListener('click', handlerAccountRemove(accountRemoveModal));
+    document.getElementById('remove-account-button').addEventListener('click', handlerAccountRemove(removeAccountModal));
     // На кнопку "Удалить" (удалить аккаунт) вешаем обработчик, который открывает модальное окно для удаления аккаунта
-    document.getElementById('account-show-button').addEventListener('click', showAccountRemoveModal(accountRemoveModal));
+    document.getElementById('show-account-button').addEventListener('click', showAccountRemoveModal(removeAccountModal));
 }
 
 /**
