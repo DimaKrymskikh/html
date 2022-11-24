@@ -1,5 +1,10 @@
 import {spinner} from './spinner.js';
 
+/**
+ * Отрисовывает пагинацию
+ * @param {Object} pagination - Объект, содержащий параметры пагинации
+ * @returns {String}
+ */
 export function paginationBlok(pagination) {
     let disabledFirstActivePage = pagination.activePage === 1 ? 'disabled' : '';
     let disabledLastActivePage = pagination.activePage === pagination.pagesNumber ? 'disabled' : '';
@@ -30,6 +35,14 @@ export function paginationBlok(pagination) {
     return html;
 }
 
+/**
+ * Обрабатывает клики по кнопкам пагинации
+ * @param {HTMLElement} container
+ * @param {Object} pagination
+ * @param {Function} request
+ * @param {Function} render
+ * @returns {void}
+ */
 export function turnPage(container, pagination, request, render) {
     function handlerPagination(request) {
         return async function(e) {
@@ -41,8 +54,9 @@ export function turnPage(container, pagination, request, render) {
             }
          
             document.querySelector('#content-container').innerHTML = spinner();
-            await request(pagination, tag.getAttribute('data-page'));
-            render();
+            if (await request(pagination, tag.getAttribute('data-page'))) {
+                render();
+            }
         };
     };
     

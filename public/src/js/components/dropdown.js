@@ -45,8 +45,9 @@ export function changeElementsNumber(container, request, render) {
             
             document.querySelector('#content-container').innerHTML = spinner();
             // При смене числа элементов на странице - активная страница всегда первая
-            await request(e.target.textContent, 1);
-            render();
+            if (await request(e.target.textContent, 1)) {
+                render();
+            }
         };
     }
     

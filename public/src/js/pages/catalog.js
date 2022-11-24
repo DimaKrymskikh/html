@@ -53,14 +53,14 @@ function renderCatalog() {
  * Осуществляет запрос на сервер для получения списка фильмов и параметров пагинации
  * @param {Object|int} pagination
  * @param {int} page
- * @returns {void}
+ * @returns {Object|Boolean}
  */
 const requestCatalog = async function(pagination, page) {
     let pageOnServer = arguments.length === 2 ? page : pagination.activePage;
     let itemsNumberOnPage = typeof pagination === "object" ? pagination.itemsNumberOnPage : pagination;
     
     // Запрос на сервер для получения списка фильмов и параметров пагинации
-    await request(`${basicUrl}/film/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
+    return await request(`${basicUrl}/film/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud,
@@ -72,7 +72,6 @@ const requestCatalog = async function(pagination, page) {
             pagination: paginationCatalog
         }
     );
-    
 };
 
 /**
@@ -81,6 +80,7 @@ const requestCatalog = async function(pagination, page) {
  */
 export async function pageCatalog() {
     document.title = 'Каталог';
-    await requestCatalog(paginationCatalog);
-    renderCatalog();
+    if (await requestCatalog(paginationCatalog)) {
+        renderCatalog();
+    }
 }

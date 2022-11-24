@@ -64,11 +64,11 @@ function content(film) {
 /**
  * Запрос на получение данных фильма с id = filmId
  * @param {int} filmId
- * @returns {void}
+ * @returns {Object|Boolean}
  */
 async function requestFilmCard(filmId) {
     contentContainer.innerHTML = spinner();
-    await request(`${basicUrl}/account/filmCard/${filmId}`, 'POST',
+    return await request(`${basicUrl}/account/filmCard/${filmId}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud
@@ -83,7 +83,8 @@ async function requestFilmCard(filmId) {
  * @returns {void}
  */
 export async function renderFilmCard(filmId) {
-    await requestFilmCard(filmId);
-    document.title = `Фильм: ${film.title}`;
-    contentContainer.innerHTML = content(film);
+    if (await requestFilmCard(filmId)) {
+        document.title = `Фильм: ${film.title}`;
+        contentContainer.innerHTML = content(film);
+    }
 }

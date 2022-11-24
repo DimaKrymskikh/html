@@ -65,6 +65,11 @@ async function handlerRegistration(e) {
         {app, user}
     );
     
+    // Если запрос вернул false, то выходим из функции
+    if (!result) {
+        return;
+    }
+    
     if (!result.errors.length) {
         document.querySelector('#alert-authorization').hidden = true;
         pageHome();

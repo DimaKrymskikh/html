@@ -101,7 +101,7 @@ async function requestAccount(pagination, page) {
     let pageOnServer = arguments.length === 2 ? page : pagination.activePage;
     let itemsNumberOnPage = typeof pagination === "object" ? pagination.itemsNumberOnPage : pagination;
     
-    await request(`${basicUrl}/account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
+    return await request(`${basicUrl}/account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud,
@@ -139,6 +139,7 @@ function handlerFilms(modal) {
 export async function pageAccount() {
     document.title = 'Личный кабинет';
     
-    await requestAccount(paginationAccount);
-    renderAccount();
+    if (await requestAccount(paginationAccount)) {
+        renderAccount();
+    }
 }

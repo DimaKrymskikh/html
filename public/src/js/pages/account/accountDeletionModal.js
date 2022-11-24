@@ -92,13 +92,19 @@ export function handlerAccountRemove(modal) {
             }),
             {app, user}
         );
+    
+        // Если запрос вернул false, то выходим из функции, закрывая модальное окно
+        if (!result) {
+            modal.hide();
+            return;
+        }
 
         if (result.errors.length === 0) {
             // Если пароль введён правильно, то закрываем модальное окно
             modal.hide();
             // Стираем страницу аккаунта и запускаем большой спиннер
             document.querySelector('#content-container').innerHTML = spinner();
-            // Показываем запись неаутифицированного пользователя
+            // Показываем запись незалогиненного пользователя
             document.querySelector('#alert-authorization').hidden = true;
             // Переходим на главную страницу
             pageHome();

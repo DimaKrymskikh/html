@@ -16,6 +16,11 @@ export async function pageLogout() {
         {app, user}
     );
     
+    // Если запрос вернул false, то выходим из функции
+    if (!result) {
+        return;
+    }
+    
     document.querySelector('#alert-authorization').hidden = false;
     pageHome(); 
 }

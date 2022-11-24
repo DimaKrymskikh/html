@@ -94,6 +94,13 @@ export function handlerRemoveFilm(modal, request, render) {
         filmRemoveModalErrors.hidden = true;
 
         const result = await requestRemoveFilm(e.currentTarget.getAttribute('data-film-id'));
+    
+        // Если запрос вернул false, то выходим из функции, закрывая модальное окно
+        if (!result) {
+            modal.hide();
+            return;
+        }
+        
         if (result.errors.length === 0) {
             // Если пароль был введён правильно, то скрываем модальное окно
             modal.hide();
@@ -144,6 +151,12 @@ export async function showFilmRemoveModal(tag, modal) {
 
     // Отправляем запрос для получения данных фильма
     const result = await requestGetFilm(tag.getAttribute('data-film-id'));
+   
+    // Если запрос вернул false, то выходим из функции, закрывая модальное окно
+    if (!result) {
+        modal.hide();
+        return;
+    }
 
     // Убираем спиннеры и показываем элементы
     oU.hideSpinner(removeFilmName);

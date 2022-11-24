@@ -41,6 +41,11 @@ const loginForm = `
 
     <div id="login-errors" class="list-group" hidden></div>`;
 
+/**
+ * Осуществляет аутентификацию пользователя
+ * @param {type} e
+ * @returns {Object|Boolean}
+ */
 async function handlerLogin(e) {
     e.preventDefault();
     
@@ -62,6 +67,11 @@ async function handlerLogin(e) {
         {app, user}
     );
     
+    // Если запрос вернул false, то выходим из функции
+    if (!result) {
+        return;
+    }
+    
     if (!result.errors.length) {
         document.querySelector('#alert-authorization').hidden = true;
         pageHome();
@@ -81,6 +91,10 @@ async function handlerLogin(e) {
     }
 }
 
+/**
+ * Отрисовывает форму входа
+ * @returns {void}
+ */
 export function pageLogin() {
     location.href = '#login';
     document.title = 'Вход';
