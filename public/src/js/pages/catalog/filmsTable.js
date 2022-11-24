@@ -1,5 +1,9 @@
 import {basicUrl, app, filmsCatalog, paginationCatalog} from '../../main.js';
 import {request} from '../../tools/request.js';
+import {objectUtil} from '../../tools/objectUtil.js';
+
+// Получаем доступ к полезным методам
+const oU = objectUtil();
 
 /**
  * Отрисовывает на странице "Каталог" таблицу всех фильмов
@@ -85,17 +89,14 @@ export function addFilm(container) {
         
         const parentTarget = tag.parentNode;
         const spinnerBorder = parentTarget.querySelector('.spinner-border');
-        // Скрываем плюс
-        tag.hidden = true;
         // Запускаем спиннер
-        spinnerBorder.classList.remove('visually-hidden');
+        oU.showSpinner(tag);
         // Отправляем запрос
         await requestAddFilm(tag.getAttribute('data-film-id'));
         // Меняем плюс на галочку
         tag.setAttribute('src', 'src/svg/check-circle.svg');
-        // Показываем галочку
-        tag.hidden = false;
         // Убираем спиннер
+        oU.hideSpinner(tag);
         spinnerBorder.classList.add('visually-hidden');
     }
     // Обработчик клика по картинке 'plus-circle.svg' (Событие делегируется на <table id="films-table">)
