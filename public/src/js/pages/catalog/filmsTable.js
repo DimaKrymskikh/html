@@ -92,12 +92,13 @@ export function addFilm(container) {
         // Запускаем спиннер
         oU.showSpinner(tag);
         // Отправляем запрос
-        await requestAddFilm(tag.getAttribute('data-film-id'));
-        // Меняем плюс на галочку
-        tag.setAttribute('src', 'src/svg/check-circle.svg');
-        // Убираем спиннер
-        oU.hideSpinner(tag);
-        spinnerBorder.classList.add('visually-hidden');
+        if (await requestAddFilm(tag.getAttribute('data-film-id'))) {
+            // Меняем плюс на галочку
+            tag.setAttribute('src', 'src/svg/check-circle.svg');
+            // Убираем спиннер
+            oU.hideSpinner(tag);
+            spinnerBorder.classList.add('visually-hidden');
+        }
     }
     // Обработчик клика по картинке 'plus-circle.svg' (Событие делегируется на <table id="films-table">)
     container.addEventListener('click', handlerAddFilm);

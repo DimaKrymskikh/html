@@ -1,3 +1,7 @@
+/**
+ * Модель ползователя
+ * @returns {Object}
+ */
 export function userModel() {
     let login = '';
 

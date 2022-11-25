@@ -1,4 +1,4 @@
-import {app} from '../main.js';
+import {app, user} from '../main.js';
 import {pageReboot} from '../pages/reboot.js';
 import {pageNewLogin} from '../pages/newlogin.js'
 
@@ -29,6 +29,7 @@ export async function request(url, method, body, ob = null) {
     
     if (response.status === 401) {
         app.setData(result.app);
+        user.setData(result.user);
         pageNewLogin();
         return false;
     }

@@ -1,5 +1,5 @@
 /**
- * Модуль для хранения свойств пагинации
+ * Модель для хранения свойств пагинации
  * @returns {Object}
  */
 export function paginationModel() {

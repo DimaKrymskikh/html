@@ -16,20 +16,28 @@ import {pageRegister} from './pages/register.js';
 
 // Переменная для хранения url сервера
 export let  basicUrl;
-
+// Экземпляр приложения
 export const app = appModel();
+// Экземпляр пользователя
 export const user = userModel();
+// Список всех доступных фильмов
 export const filmsCatalog = filmsModel();
+// Список фильмов, доступных пользователю
 export const filmsAccount = filmsModel();
+// Экземпляр пагинации списка всех фильмов
 export const paginationCatalog = paginationModel();
+// Экземпляр пагинации списка фильмов, доступных пользователю
 export const paginationAccount = paginationModel();
+// Экземпляр, управляющий основным меню
 export const nav = navigationBar();
 
+// Элемент DOM, который содержит изменяемый контент
 const contentContainer = document.querySelector('#content-container');
 
 // Отслеживает клики по ссылкам.
 // href ссылок должен состоять только из hash
 document.body.addEventListener('click', handlerRouter);
+
 /**
  * Переключает страницы приложения
  * @param {Event} e
@@ -46,8 +54,11 @@ async function handlerRouter(e) {
         return;
     }
     
+    // Блокируем ссылки от повторного нажатия
     addBanLink();
+    // Запускаем большой спиннер
     contentContainer.innerHTML = spinner();
+    // Отрисовываем нужную страницу
     switch(tag.hash) {
         case '': pageHome(); break;
         case '#catalog': await pageCatalog(); break;
@@ -56,11 +67,12 @@ async function handlerRouter(e) {
         case '#logout': await pageLogout(); break;
         case '#register': pageRegister(); break;
     }
+    // Разблокируем ссылки
     removeBanLink();
 }
 
 /**
- * Используется для блоктрования ссылок для избежания повторных запросов
+ * Используется для блоктрования ссылок во избежания повторных запросов
  * @returns {void}
  */
 function addBanLink() {
@@ -79,7 +91,7 @@ function removeBanLink() {
     });
 }
 
-// Содержит запросы при загрузке приложения
+// Загрузка приложения
 (async function() {
     addBanLink();
     contentContainer.innerHTML = spinner();

@@ -43,6 +43,11 @@ const registrationForm = `
 
         <div id="register-errors" class="list-group"></div>`;
 
+/**
+ * Управляет регистрацией пользователя
+ * @param {Event} e
+ * @returns {void}
+ */
 async function handlerRegistration(e) {
     e.preventDefault();
     
