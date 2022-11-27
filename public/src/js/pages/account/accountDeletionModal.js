@@ -105,7 +105,7 @@ export function handlerAccountRemove(modal) {
             // Стираем страницу аккаунта и запускаем большой спиннер
             document.querySelector('#content-container').innerHTML = spinner();
             // Показываем запись незалогиненного пользователя
-            document.querySelector('#alert-authorization').hidden = true;
+            document.querySelector('#alert-authorization').hidden = false;
             // Переходим на главную страницу
             pageHome();
         } else {
