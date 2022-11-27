@@ -20,10 +20,13 @@ npm update
 
 ## Настройка Apache
 ```
-        RewriteEngine on
-        # Если запрашиваемая в URL директория или файл существуют обращаемся к ним напрямую
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-        # Если нет - перенаправляем запрос на index.php
-        RewriteRule . index.html
+RewriteEngine on
+# Если запрашиваемая в URL директория или файл существуют обращаемся к ним напрямую
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Если нет - перенаправляем запрос на index.php
+RewriteRule . index.html
 ```
+
+## Серверное приложение
+Url [серверной части api](https://github.com/DimaKrymskikh/api) нужно указать в файле `.env` в переменной `API_URL`.
