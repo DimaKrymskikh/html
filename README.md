@@ -9,7 +9,7 @@ git clone git@github.com:DimaKrymskikh/html.git
 Будет создан проект в папке `html`.
 Нужно зайти в эту папку и выполнить команду
 ```
-composer update
+composer install
 ```
 чтобы установить зависимости php.
 (Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
@@ -17,7 +17,7 @@ composer update
 
 Нужно установить зависимости фронтенда, выполнив команду (должен быть установлен [Node.js](https://nodejs.org/en/))
 ```
-npm update
+npm install
 ```
 и собрать сборкку js
 ```
