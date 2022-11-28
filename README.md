@@ -19,7 +19,7 @@ composer update
 ```
 npm update
 ```
-собрать сборкку js
+и собрать сборкку js
 ```
 npm run build
 ```
