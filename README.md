@@ -23,6 +23,10 @@ npm update
 ```
 npm run build
 ```
+Можно проверить тесты
+```
+npm run test
+```
 
 ## Настройка Apache
 ```
