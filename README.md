@@ -13,7 +13,8 @@ composer install
 ```
 чтобы установить зависимости php.
 (Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
-Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Переменная окружения `API_URL` должна содержать `url` серверной части `api`.
+Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`.
+Переменная окружения `API_URL` должна содержать `url` серверной части `api`, например, `http://api.foo:88`.
 
 Нужно установить зависимости фронтенда, выполнив команду (должен быть установлен [Node.js](https://nodejs.org/en/))
 ```
@@ -39,4 +40,4 @@ RewriteRule . index.html
 ```
 
 ## Серверное приложение
-Url [серверной части api](https://github.com/DimaKrymskikh/api) нужно указать в файле `.env` в переменной `API_URL`.
+Url [серверной части api](https://github.com/DimaKrymskikh/api), например, `http://api.foo:88` нужно указать в файле `.env` в переменной `API_URL`.
