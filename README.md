@@ -40,4 +40,5 @@ RewriteRule . index.html
 ```
 
 ## Серверное приложение
-Url [серверной части api](https://github.com/DimaKrymskikh/api), например, `http://api.foo:88` нужно указать в файле `.env` в переменной `API_URL`.
+Данное клиентское приложение взаимодействует с серверной частью api, которая размещена
+[здесь](https://github.com/DimaKrymskikh/api).
