@@ -4,13 +4,15 @@
 ## Установка
 Нужно выполнить клонирование
 ```
-git@github.com:DimaKrymskikh/html.git
+git clone git@github.com:DimaKrymskikh/html.git
 ```
-а затем команду
+Будет создан проект в папке `html`.
+Нужно зайти в эту папку и выполнить команду
 ```
 composer update
 ```
 чтобы установить зависимости php.
+(Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
 Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Переменная окружения `API_URL` должна содержать `url` серверной части `api`.
 
 Нужно установить зависимости фронтенда, выполнив команду
