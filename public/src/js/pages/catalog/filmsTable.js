@@ -32,6 +32,9 @@ export function renderAllFilmsTable(dropdown) {
                 <th scope="col"><input type="text" id="sort-film-title" class="form-control" value="${filmsCatalog.sortFilmTitle}"></th>
                 <th scope="col"><input type="text" id="sort-film-description" class="form-control" value="${filmsCatalog.sortFilmDescription}"></th>
                 <th scope="col"></th>`;
+    if(!app.isGuest) {
+        html += `<th scope="col"></th>`;
+    }
     
     html += `</tr></thead>
             <tbody>`;
