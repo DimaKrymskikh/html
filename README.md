@@ -9,15 +9,24 @@ git clone git@github.com:DimaKrymskikh/html.git
 Будет создан проект в папке `html`.
 Нужно зайти в эту папку и выполнить команду
 ```
-composer update
+composer install
 ```
 чтобы установить зависимости php.
 (Как установить composer изложено в инструкции [Composer Getting Started](https://getcomposer.org/doc/00-intro.md)).
-Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`. Переменная окружения `API_URL` должна содержать `url` серверной части `api`.
+Далее нужно создать файл `.env` и скопировать в него содержимое файла `.env.example`.
+Переменная окружения `API_URL` должна содержать `url` серверной части `api`, например, `http://api.foo:88`.
 
-Нужно установить зависимости фронтенда, выполнив команду
+Нужно установить зависимости фронтенда, выполнив команду (должен быть установлен [Node.js](https://nodejs.org/en/))
 ```
-npm update
+npm install
+```
+и собрать сборкку js
+```
+npm run build
+```
+Можно проверить тесты
+```
+npm run test
 ```
 
 ## Настройка Apache
@@ -31,4 +40,5 @@ RewriteRule . index.html
 ```
 
 ## Серверное приложение
-Url [серверной части api](https://github.com/DimaKrymskikh/api) нужно указать в файле `.env` в переменной `API_URL`.
+Данное клиентское приложение взаимодействует с серверной частью api, которая размещена
+[здесь](https://github.com/DimaKrymskikh/api).
