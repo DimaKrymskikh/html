@@ -1,5 +1,4 @@
-import {basicUrl, app, filmsCatalog, paginationCatalog} from '../../main.js';
-import {request} from '../../tools/request.js';
+import {app, filmsCatalog, paginationCatalog} from '../../main.js';
 import {objectUtil} from '../../tools/objectUtil.js';
 
 // Получаем доступ к полезным методам
@@ -73,7 +72,7 @@ export function renderAllFilmsTable(dropdown) {
 export function addFilm(container) {
     // Запрос на сервер для добавления фильма в таблицу person.users_films
     async function requestAddFilm(filmId) {
-        return await request(`${basicUrl}/userFilm/${filmId}`, 'POST',
+        return await app.request(`userFilm/${filmId}`, 'POST',
             JSON.stringify({
                 token: app.token,
                 aud: app.aud

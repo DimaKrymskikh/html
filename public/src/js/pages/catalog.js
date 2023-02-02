@@ -1,7 +1,6 @@
-import {basicUrl, app, filmsCatalog, paginationCatalog} from '../main.js';
+import {app, filmsCatalog, paginationCatalog} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
-import {request} from '../tools/request.js';
 import {objectUtil} from '../tools/objectUtil.js';
 import {putFilms} from '../tools/putFilms.js';
 import {renderAllFilmsTable, addFilm} from './catalog/filmsTable.js';
@@ -60,7 +59,7 @@ const requestCatalog = async function(pagination, page) {
     let itemsNumberOnPage = typeof pagination === "object" ? pagination.itemsNumberOnPage : pagination;
     
     // Запрос на сервер для получения списка фильмов и параметров пагинации
-    return await request(`${basicUrl}/film/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
+    return await app.request(`film/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud,

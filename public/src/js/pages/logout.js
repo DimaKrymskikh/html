@@ -1,6 +1,5 @@
-import {basicUrl, app, user} from '../main.js';
+import {app, user} from '../main.js';
 import {pageHome} from './home.js';
-import {request} from '../tools/request.js';
 
 /**
  * Разлогирование пользователя
@@ -8,7 +7,7 @@ import {request} from '../tools/request.js';
  */
 export async function pageLogout() {
     
-    const result = await request(`${basicUrl}/logout`, 'POST',
+    const result = await app.request('logout', 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud

@@ -1,9 +1,8 @@
-import {basicUrl, app, user} from '../main.js';
+import {app, user} from '../main.js';
 import {pageHome} from './home.js';
 import {getBreadcrumb} from '../components/breadcrumb.js'
 import {spinner} from '../components/spinner.js';
 import {getFillingErrors} from '../components/fillingErrors.js';
-import {request} from '../tools/request.js';
 
 const contentContainer = document.querySelector('#content-container');
 
@@ -57,7 +56,7 @@ async function handlerLogin(e) {
     // Спиннер запускается после сбора данных, потому что он стирает форму
     contentContainer.innerHTML = spinner();
     
-    const result = await request(`${basicUrl}/login`, 'POST',
+    const result = await app.request('login', 'POST',
         JSON.stringify({
             login: data.get('login'),
             password: data.get('password'),

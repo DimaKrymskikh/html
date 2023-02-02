@@ -1,6 +1,5 @@
-import {basicUrl, app, user} from '../../main.js';
+import {app, user} from '../../main.js';
 import {pageHome} from '../home.js';
-import {request} from '../../tools/request.js';
 import {getFillingErrors} from '../../components/fillingErrors.js';
 import {spinner} from '../../components/spinner.js';
 import {objectUtil} from '../../tools/objectUtil.js';
@@ -84,7 +83,7 @@ export function handlerAccountRemove(modal) {
         removeAccountModalErrors.innerHTML = '';
         
         // Запрос на удаление аккаунта
-        const result = await request(`${basicUrl}/account`, 'DELETE',
+        const result = await app.request('account', 'DELETE',
             JSON.stringify({
                 password: document.getElementById('remove-account-password').value,
                 token: app.token,

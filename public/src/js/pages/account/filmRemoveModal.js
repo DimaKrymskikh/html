@@ -1,5 +1,4 @@
-import {basicUrl, app, paginationAccount} from '../../main.js';
-import {request} from '../../tools/request.js';
+import {app, paginationAccount} from '../../main.js';
 import {getFillingErrors} from '../../components/fillingErrors.js';
 import {spinner} from '../../components/spinner.js';
 import {objectUtil} from '../../tools/objectUtil.js';
@@ -49,7 +48,7 @@ export function renderFilmRemoveModal() {
  * @returns {Object}
  */
 async function requestGetFilm(filmId) {
-    return  await request(`${basicUrl}/account/getFilm/${filmId}`, 'POST',
+    return  await app.request(`account/getFilm/${filmId}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud
@@ -64,7 +63,7 @@ async function requestGetFilm(filmId) {
  * @returns {Object}
  */
 async function requestRemoveFilm(filmId) {
-    return  await request(`${basicUrl}/userFilm/${filmId}`, 'DELETE',
+    return  await app.request(`userFilm/${filmId}`, 'DELETE',
         JSON.stringify({
             token: app.token,
             aud: app.aud,
@@ -165,7 +164,8 @@ export async function showFilmRemoveModal(tag, modal) {
     
     // Показываем поле ввода пароля
     removeFilmPassword.hidden = false;
-    // добавляем полученые данные 
+    // добавляем название фильма 
     removeFilmName.innerHTML = result.title;
-    document.getElementById('remove-film-button').setAttribute('data-film-id', result.id);
+    // Добавляем id фильма в кнопку на удаление фильма
+    document.getElementById('remove-film-button').setAttribute('data-film-id', tag.getAttribute('data-film-id'));
 }

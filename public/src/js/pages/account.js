@@ -1,8 +1,7 @@
 import { Modal } from 'bootstrap';
-import {basicUrl, app, user, filmsAccount, paginationAccount} from '../main.js';
+import {app, user, filmsAccount, paginationAccount} from '../main.js';
 import {paginationBlok, turnPage} from '../components/pagination.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
-import {request} from '../tools/request.js';
 import {objectUtil} from '../tools/objectUtil.js';
 import {putFilms} from '../tools/putFilms.js';
 import {renderFilmCard} from './filmCard.js';
@@ -101,7 +100,7 @@ async function requestAccount(pagination, page) {
     let pageOnServer = arguments.length === 2 ? page : pagination.activePage;
     let itemsNumberOnPage = typeof pagination === "object" ? pagination.itemsNumberOnPage : pagination;
     
-    return await request(`${basicUrl}/account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
+    return await app.request(`account/index/${pageOnServer}/${itemsNumberOnPage}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud,

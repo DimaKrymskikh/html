@@ -1,7 +1,6 @@
-import {basicUrl, app} from '../main.js';
+import {app} from '../main.js';
 import {getBreadcrumb} from '../components/breadcrumb.js';
 import {filmModel} from '../models/filmModel.js';
-import {request} from '../tools/request.js';
 import {spinner} from '../components/spinner.js';
 
 const film = filmModel();
@@ -68,7 +67,7 @@ function content(film) {
  */
 async function requestFilmCard(filmId) {
     contentContainer.innerHTML = spinner();
-    return await request(`${basicUrl}/account/filmCard/${filmId}`, 'POST',
+    return await app.request(`account/filmCard/${filmId}`, 'POST',
         JSON.stringify({
             token: app.token,
             aud: app.aud

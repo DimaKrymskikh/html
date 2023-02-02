@@ -6,7 +6,6 @@ import {filmsModel} from './models/filmsModel.js';
 import {paginationModel} from './models/paginationModel.js';
 import {navigationBar} from './components/navigation.js';
 import {spinner} from './components/spinner.js';
-import {loading} from './pages/loading.js';
 import {pageHome} from './pages/home.js';
 import {pageCatalog} from './pages/catalog.js';
 import {pageAccount} from './pages/account.js';
@@ -14,8 +13,6 @@ import {pageLogin} from './pages/login.js';
 import {pageLogout} from './pages/logout.js';
 import {pageRegister} from './pages/register.js';
 
-// Переменная для хранения url сервера
-export let  basicUrl;
 // Экземпляр приложения
 export const app = appModel();
 // Экземпляр пользователя
@@ -96,12 +93,8 @@ function removeBanLink() {
     addBanLink();
     contentContainer.innerHTML = spinner();
     
-    // Сохраняем url сервера в переменной basicUrl
-    const response = await fetch('basicUrl.php');
-    basicUrl = await response.text();
-    
-    await loading();
-    
-    pageHome();
-    removeBanLink();
+    if( await app.request(`init/${app.aud}`, 'GET', null, {app}) ) {
+        pageHome();
+        removeBanLink();
+    }
 })();
